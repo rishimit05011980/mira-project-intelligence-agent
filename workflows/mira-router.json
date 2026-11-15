@@ -1,0 +1,836 @@
+{
+  "name": "Mira Router",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        208
+      ],
+      "id": "8ea4e201-c6c2-4e9a-a4b1-b2e3c17b0eac",
+      "name": "When chat message received",
+      "webhookId": "18b5b840-472d-4973-9a8b-41e8e62d2758"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "ROLE:\nYou are a Request Router.\n\nRESPONSIBILITY:\nClassify the user's request into exactly one category.\n\nVALID CATEGORIES:\n\nPLAN\nRISK\nSTATUS\nMILESTONE\nSTAKEHOLDER\n\nRULES:\n\n1. Return only one category.\n2. Return only uppercase text.\n3. Do not explain your answer.\n4. Do not generate project plans.\n5. Do not generate risks.\n6. Do not generate status reports.\n7. If intent is unclear return:\n\nUNKNOWN\n\nClassification Rules:\n\nPLAN\n- Generate project plan\n- Project phases\n- Deliverables\n- Project objectives\n- Timeline creation\n\nRISK\n- Generate risk assessment\n- Top risks\n- Risk matrix\n- Mitigation strategies\n\nSTATUS\n- Weekly status report\n- Project status summary\n- Done, In Progress, To Do, Blocked counts\n\nMILESTONE\n- Upcoming milestones\n- Blocked tasks\n- Tasks at risk of missing deadlines\n- Timeline tracking\n- Milestone alerts\n- Schedule slippage analysis\n\nSTAKEHOLDER\n- Executive updates\n- Stakeholder communication\n- Status emails\n- Leadership summaries"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        208
+      ],
+      "id": "594ee003-de34-4c84-a6f7-b220a9d7fa0c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        448
+      ],
+      "id": "9bb873f8-b88b-4ac7-b346-03ae8f53c3d4",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.output}}",
+                    "rightValue": "PLAN",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f5764292-5206-4d89-af26-ce2d25ad0da6"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PLAN"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "7896d411-2493-4922-b646-6d718a5ff15b",
+                    "leftValue": "={{$json.output}}",
+                    "rightValue": "RISK",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "RISK"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "134dcaf3-58f1-4e7e-913f-25ecb7d38f75",
+                    "leftValue": "={{$json.output}}",
+                    "rightValue": "STATUS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "STATUS"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "da792056-c156-45a5-a33d-17ab860adf34",
+                    "leftValue": "={{$json.output}}",
+                    "rightValue": "MILESTONE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "MILESTONE"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "bec1ed86-f746-46b8-b884-442b3fd4d920",
+                    "leftValue": "={{$json.output}}",
+                    "rightValue": "STAKEHOLDER",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "STAKEHOLDER"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.5,
+      "position": [
+        576,
+        160
+      ],
+      "id": "5574976e-c538-4368-b199-9d34156d40b0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "yOGSq6XnuqO8yLxu",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/yOGSq6XnuqO8yLxu",
+          "cachedResultName": "Mira Context Loader"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "intent": "PLAN"
+          },
+          "matchingColumns": [
+            "intent"
+          ],
+          "schema": [
+            {
+              "id": "intent",
+              "displayName": "intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        -176
+      ],
+      "id": "7bd6428e-bd3c-48e0-9460-5b147572c2cc",
+      "name": "Call 'Mira Context Loader'"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "WSPUAfw3YyLyCF5c",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/WSPUAfw3YyLyCF5c",
+          "cachedResultName": "Mira - Planner Agent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "project_request": "={{$('When chat message received').item.json.chatInput}}",
+            "project_context": "=Project Description:\n{{$json.project_description}}\nTimeline:\n{{ JSON.stringify($json.timeline) }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "project_request",
+              "displayName": "project_request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "project_context",
+              "displayName": "project_context",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        1024,
+        -176
+      ],
+      "id": "e5a3e29c-738d-4b5f-a3dd-97f410fe0e21",
+      "name": "Call 'Mira - Planner Agent'"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "yOGSq6XnuqO8yLxu",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/yOGSq6XnuqO8yLxu",
+          "cachedResultName": "Mira Context Loader"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "intent": "RISK"
+          },
+          "matchingColumns": [
+            "intent"
+          ],
+          "schema": [
+            {
+              "id": "intent",
+              "displayName": "intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        16
+      ],
+      "id": "d7b9d110-fc98-4282-aa35-f87ada55458d",
+      "name": "Call 'Mira Context Loader'1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "W0eCdmKXflYuIHbN",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/W0eCdmKXflYuIHbN",
+          "cachedResultName": "Mira - Risk Agent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "project_request": "={{$('When chat message received').item.json.chatInput}}",
+            "project_context": "=Project Description:\n{{$json.project_description}}\nRisk Register:\n{{ JSON.stringify($json.risks) }}"
+          },
+          "matchingColumns": [
+            "project_request"
+          ],
+          "schema": [
+            {
+              "id": "project_request",
+              "displayName": "project_request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "project_context",
+              "displayName": "project_context",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        1024,
+        16
+      ],
+      "id": "d46c10f3-cb7e-440f-96c5-442db8aa23bd",
+      "name": "Call 'Mira - Risk Agent'"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "yOGSq6XnuqO8yLxu",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/yOGSq6XnuqO8yLxu",
+          "cachedResultName": "Mira Context Loader"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "intent": "STATUS"
+          },
+          "matchingColumns": [
+            "intent"
+          ],
+          "schema": [
+            {
+              "id": "intent",
+              "displayName": "intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        208
+      ],
+      "id": "9288ed94-027c-4965-931e-6b2f3ac205a0",
+      "name": "Call 'Mira Context Loader'2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "yOGSq6XnuqO8yLxu",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/yOGSq6XnuqO8yLxu",
+          "cachedResultName": "Mira Context Loader"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "intent": "MILESTONE"
+          },
+          "matchingColumns": [
+            "intent"
+          ],
+          "schema": [
+            {
+              "id": "intent",
+              "displayName": "intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        400
+      ],
+      "id": "288f1111-2fd6-49f8-ab21-e533cc01edb9",
+      "name": "Call 'Mira Context Loader'3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "XMnlK1wWRiagnV2s",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/XMnlK1wWRiagnV2s",
+          "cachedResultName": "Mira - Milestone Agent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "project_request": "={{$('When chat message received').item.json.chatInput}}",
+            "project_context": "={{$json.project_context}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "project_request",
+              "displayName": "project_request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "project_context",
+              "displayName": "project_context",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        1024,
+        400
+      ],
+      "id": "01604b8f-0e23-42c3-85ce-0a01ef8890e6",
+      "name": "Call 'Mira - Milestone Agent'"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "jZ81XInfaTO7CAbO",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/jZ81XInfaTO7CAbO",
+          "cachedResultName": "Mira - Status Agent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "project_request": "={{$('When chat message received').item.json.chatInput}}",
+            "project_context": "={{$json.project_context}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "project_request",
+              "displayName": "project_request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "project_context",
+              "displayName": "project_context",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        1024,
+        208
+      ],
+      "id": "abe85518-100b-4dc7-b5ac-68708b1186a8",
+      "name": "Call 'Mira - Status Agent'"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "HtaAhSQBDNKTTeFI",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/HtaAhSQBDNKTTeFI",
+          "cachedResultName": "Mira - Stakeholder Agent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "project_request": "={{$('When chat message received').item.json.chatInput}}",
+            "project_context": "={{$json.stakeholder_context}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "project_request",
+              "displayName": "project_request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "project_context",
+              "displayName": "project_context",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        1024,
+        592
+      ],
+      "id": "b9c978c5-c2dc-48e9-b325-7f42677349a5",
+      "name": "Call 'Mira - Stakeholder Agent"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "CSP2j1D33UDKBBhh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/CSP2j1D33UDKBBhh",
+          "cachedResultName": "Mira - Stakeholder Context Consolidator"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "status_summary",
+              "displayName": "status_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "risk_summary",
+              "displayName": "risk_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "milestone_summary",
+              "displayName": "milestone_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        592
+      ],
+      "id": "fb56e831-32d3-47c8-b63c-19003127cc07",
+      "name": "Call 'Mira - Stakeholder Context Consolidator'"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Call 'Mira Context Loader'",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call 'Mira Context Loader'1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call 'Mira Context Loader'2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call 'Mira Context Loader'3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call 'Mira - Stakeholder Context Consolidator'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Mira Context Loader'": {
+      "main": [
+        [
+          {
+            "node": "Call 'Mira - Planner Agent'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Mira Context Loader'1": {
+      "main": [
+        [
+          {
+            "node": "Call 'Mira - Risk Agent'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Mira Context Loader'2": {
+      "main": [
+        [
+          {
+            "node": "Call 'Mira - Status Agent'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Mira Context Loader'3": {
+      "main": [
+        [
+          {
+            "node": "Call 'Mira - Milestone Agent'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Mira - Stakeholder Context Consolidator'": {
+      "main": [
+        [
+          {
+            "node": "Call 'Mira - Stakeholder Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c1f0065f-7ae8-490d-9531-0655b12f0fdf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9f9fe73ec08ba0e67dbfd52d8bd947d814188885765893b3e29c722400a7e64a"
+  },
+  "nodeGroups": [],
+  "id": "f6IIIxL2gDjRt0MR",
+  "tags": []
+}
