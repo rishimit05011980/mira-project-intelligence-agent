@@ -1,0 +1,1011 @@
+{
+  "name": "Mira Context Loader",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.intent}}",
+                    "rightValue": "PLAN",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3def800d-af22-4b47-ae52-95afeae86518"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PLAN"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "4744b458-dee2-4217-ae9d-d9356b3c1712",
+                    "leftValue": "={{$json.intent}}",
+                    "rightValue": "RISK",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "RISK"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "f9e893b2-2f6a-4d54-bb14-1f19a5ec71e2",
+                    "leftValue": "={{$json.intent}}",
+                    "rightValue": "STATUS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "STATUS"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "c76a0457-96a0-4c7d-9fe8-9f92c5f08a69",
+                    "leftValue": "={{$json.intent}}",
+                    "rightValue": "MILESTONE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "MILESTONE"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "72298291-f08e-424a-bb9d-39c2564b71ee",
+                    "leftValue": "={{$json.intent}}",
+                    "rightValue": "STAKEHOLDER",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "STAKEHOLDER"
+            }
+          ]
+        },
+        "looseTypeValidation": "={{ false }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.5,
+      "position": [
+        272,
+        336
+      ],
+      "id": "fddf8add-0175-43cf-b634-d16800444b1c",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1WEmYjmc_0KqmPUCdxLn1kAReWHw7Vv_-",
+          "mode": "list",
+          "cachedResultName": "project_description.txt",
+          "cachedResultUrl": "https://drive.google.com/file/d/1WEmYjmc_0KqmPUCdxLn1kAReWHw7Vv_-/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        496,
+        -288
+      ],
+      "id": "4b806dd0-c0f9-41fd-85f6-7b9fea786810",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8betQ19f1NP3Gk2L",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        -288
+      ],
+      "id": "850a5ad7-277b-4a3e-a8c4-598c91f415f7",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1R-a0zdIsQq4h6jt1ja2dUS6e1qm_0KbD",
+          "mode": "list",
+          "cachedResultName": "project_timeline.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1R-a0zdIsQq4h6jt1ja2dUS6e1qm_0KbD/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        496,
+        -96
+      ],
+      "id": "d2a184a3-23ac-40f6-8750-fd9dcac2e5c6",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8betQ19f1NP3Gk2L",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        -96
+      ],
+      "id": "7509c71f-f73e-429b-9290-04af9767260f",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        944,
+        -192
+      ],
+      "id": "a12db831-b2fa-4a44-99b2-35d2f7cc5bca",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f4ca44f-dabc-4598-91ff-e6bc7d08d1e8",
+              "name": "context_type",
+              "value": "PLAN",
+              "type": "string"
+            },
+            {
+              "id": "8a572668-dbaa-45c7-bc90-c9aba5d58af8",
+              "name": "project_context",
+              "value": "={{$json.data}}",
+              "type": "string"
+            },
+            {
+              "id": "fffe99a6-ff66-4efa-a2a9-5d11f56fb1ba",
+              "name": "project_context",
+              "value": "={{$json.data}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1392,
+        -192
+      ],
+      "id": "48e5eb09-70f9-44e8-b4f1-232610c970ff",
+      "name": "Planning Context"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1WEmYjmc_0KqmPUCdxLn1kAReWHw7Vv_-",
+          "mode": "list",
+          "cachedResultName": "project_description.txt",
+          "cachedResultUrl": "https://drive.google.com/file/d/1WEmYjmc_0KqmPUCdxLn1kAReWHw7Vv_-/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        496,
+        96
+      ],
+      "id": "9044a41b-8acf-4d95-b631-1ea7d94ba847",
+      "name": "Download file2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8betQ19f1NP3Gk2L",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        96
+      ],
+      "id": "9d72fbcc-bfc1-4d3c-8a52-34e4fdb79cf8",
+      "name": "Extract from File2"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1WipyvOTnksppX5oX58jMX9zjCAdNyYV3",
+          "mode": "list",
+          "cachedResultName": "project_risks.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1WipyvOTnksppX5oX58jMX9zjCAdNyYV3/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        496,
+        288
+      ],
+      "id": "e6e3d913-bb10-4818-940f-d8f293e19b66",
+      "name": "Download file3",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8betQ19f1NP3Gk2L",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        288
+      ],
+      "id": "f0a04648-a7bc-43fd-9f3e-93c54f29892c",
+      "name": "Extract from File3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        944,
+        192
+      ],
+      "id": "a1fdd741-1998-406f-a28f-8b7117bfa350",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8573fdf6-73e3-4fb1-bc14-29807d622c02",
+              "name": "context_type",
+              "value": "RISK",
+              "type": "string"
+            },
+            {
+              "id": "f4f1747e-9fcf-473c-9779-9c7a351cdd30",
+              "name": "project_context",
+              "value": "={{$json.data}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1392,
+        192
+      ],
+      "id": "283aa986-31a3-450c-8628-6ba7e1d466b3",
+      "name": "Risk Context"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1r3BGp54XV8Duqc02g6Tirs0vXCc6lHL6",
+          "mode": "list",
+          "cachedResultName": "sample_task_board.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1r3BGp54XV8Duqc02g6Tirs0vXCc6lHL6/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        496,
+        480
+      ],
+      "id": "9fc385a1-97fa-405f-a509-9ee13895d262",
+      "name": "Download file4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8betQ19f1NP3Gk2L",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        480
+      ],
+      "id": "f8946836-e18d-482a-aa32-f3b7feef90d7",
+      "name": "Extract from File4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "07493c79-6353-44f0-a5be-0f36e6928c9b",
+              "name": "context_type",
+              "value": "STATUS",
+              "type": "string"
+            },
+            {
+              "id": "e7c1d032-e175-41c7-98ae-c590cb60cf86",
+              "name": "project_context",
+              "value": "={{ JSON.stringify($json.tasks) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1168,
+        480
+      ],
+      "id": "c7c1f9e0-255f-4aa6-ae59-fdaa2481b07c",
+      "name": "Status Context"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1R-a0zdIsQq4h6jt1ja2dUS6e1qm_0KbD",
+          "mode": "list",
+          "cachedResultName": "project_timeline.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1R-a0zdIsQq4h6jt1ja2dUS6e1qm_0KbD/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        512,
+        848
+      ],
+      "id": "e253cf31-7cf0-41a9-aa6d-125638be25ae",
+      "name": "Download file5",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8betQ19f1NP3Gk2L",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1r3BGp54XV8Duqc02g6Tirs0vXCc6lHL6",
+          "mode": "list",
+          "cachedResultName": "sample_task_board.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1r3BGp54XV8Duqc02g6Tirs0vXCc6lHL6/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        496,
+        672
+      ],
+      "id": "233b4c6d-4588-43dd-96eb-2671081ffce4",
+      "name": "Download file6",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "8betQ19f1NP3Gk2L",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        672
+      ],
+      "id": "b073e1f0-15e7-4901-ad7a-8786ecc5fca9",
+      "name": "Extract from File5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        864
+      ],
+      "id": "edd26d03-d8e4-41b4-9a1b-fe4ace314fad",
+      "name": "Extract from File6"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        944,
+        864
+      ],
+      "id": "a11597a6-42dd-4a58-ade3-05c68d582bd5",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec194c43-d620-4222-92cc-a2776211a376",
+              "name": "context_type",
+              "value": "MILESTONE",
+              "type": "string"
+            },
+            {
+              "id": "efe683f9-05a6-4356-99d1-ec7efea058bf",
+              "name": "project_context",
+              "value": "=Timeline:  {{ JSON.stringify($json.timeline) }}  Task Board:  {{ JSON.stringify($json.tasks) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1392,
+        864
+      ],
+      "id": "ea475f7d-7860-4a11-abd4-42310c1b682a",
+      "name": "Milestone Context"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "intent"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        384
+      ],
+      "id": "6c8c5ba8-7b12-4038-8369-8f700b60eb04",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet projectDescription = \"\";\nlet risks = [];\n\nfor (const item of items) {\n\n  if (item.json.data) {\n    projectDescription = item.json.data;\n  }\n\n  if (item.json.risk_id) {\n    risks.push({\n      risk_id: item.json.risk_id,\n      category: item.json.category,\n      risk_challenge: item.json.risk_challenge,\n      impact: item.json.impact,\n      mitigation_strategy: item.json.mitigation_strategy,\n    });\n  }\n}\n\nreturn [\n  {\n    json: {\n      context_type: \"RISK\",\n      project_description: projectDescription,\n      risks: risks,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        192
+      ],
+      "id": "0dec01ef-0d0a-4134-b175-4f0dffa625d9",
+      "name": "Risk Context Consolidator"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet projectDescription = \"\";\nlet timeline = [];\n\nfor (const item of items) {\n\n  if (item.json.data) {\n    projectDescription = item.json.data;\n  }\n\n  if (item.json.phase) {\n    timeline.push({\n      phase: item.json.phase,\n      phase_name: item.json.phase_name,\n      start_week: item.json.start_week,\n      end_week: item.json.end_week,\n      key_activities: item.json.key_activities,\n      milestones_deliverables: item.json.milestones_deliverables,\n    });\n  }\n}\n\nreturn [\n  {\n    json: {\n      context_type: \"PLAN\",\n      project_description: projectDescription,\n      timeline: timeline,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        -192
+      ],
+      "id": "9aa6f44b-045b-43b1-9a25-55bf1397c595",
+      "name": "Planning Context Consolidator"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet tasks = [];\n\nfor (const item of items) {\n\n  if (item.json.task_id) {\n    tasks.push({\n      task_id: item.json.task_id,\n      task_name: item.json.task_name,\n      status: item.json.status,\n      sprint: item.json.sprint,\n      assignee: item.json.assignee,\n      due_date: item.json.due_date,\n    });\n  }\n}\n\nreturn [\n  {\n    json: {\n      context_type: \"STATUS\",\n      tasks: tasks,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        944,
+        480
+      ],
+      "id": "19c75537-553a-42b1-9c4f-875281ffd071",
+      "name": "Status Context Consolidator"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet timeline = [];\nlet tasks = [];\n\nfor (const item of items) {\n\n  if (item.json.phase) {\n    timeline.push({\n      phase: item.json.phase,\n      phase_name: item.json.phase_name,\n      start_week: item.json.start_week,\n      end_week: item.json.end_week,\n      key_activities: item.json.key_activities,\n      milestones_deliverables: item.json.milestones_deliverables,\n    });\n  }\n\n  if (item.json.task_id) {\n    tasks.push({\n      task_id: item.json.task_id,\n      task_name: item.json.task_name,\n      status: item.json.status,\n      sprint: item.json.sprint,\n      assignee: item.json.assignee,\n      due_date: item.json.due_date,\n    });\n  }\n}\n\nreturn [\n  {\n    json: {\n      context_type: \"MILESTONE\",\n      timeline: timeline,\n      tasks: tasks,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        864
+      ],
+      "id": "1356146c-aaa5-4fd5-a2ab-e73f0da6fcd3",
+      "name": "Milestone Context Consolidator"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3047394e-7acb-4d42-bebe-b39dd495001b",
+              "name": "context_type",
+              "value": "STAKEHOLDER",
+              "type": "string"
+            },
+            {
+              "id": "9bd5e7c5-ee9f-4d67-a991-fb70c6ba40de",
+              "name": "project_context",
+              "value": "Project Status  Completed Tasks: 5  In Progress Tasks: 3  Blocked Tasks: 1  Blocked Item: T024 - Security review of AI infrastructure  Key Risks  Data Quality & Availability  Integration Issues  Change Resistance  Milestone Summary  Use Case Selection  Pilot Design  Pilot Implementation",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        496,
+        1200
+      ],
+      "id": "d4c84f00-7936-4874-9a10-84396ff2a9df",
+      "name": "Stakeholder Context"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download file2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download file3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download file4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download file5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download file6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stakeholder Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Planning Context Consolidator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Planning Context": {
+      "main": [
+        []
+      ]
+    },
+    "Download file2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file3": {
+      "main": [
+        [
+          {
+            "node": "Extract from File3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File3": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Risk Context Consolidator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file4": {
+      "main": [
+        [
+          {
+            "node": "Extract from File4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File4": {
+      "main": [
+        [
+          {
+            "node": "Status Context Consolidator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file6": {
+      "main": [
+        [
+          {
+            "node": "Extract from File5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file5": {
+      "main": [
+        [
+          {
+            "node": "Extract from File6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File6": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Extract from File5": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risk Context Consolidator": {
+      "main": [
+        [
+          {
+            "node": "Risk Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Planning Context Consolidator": {
+      "main": [
+        [
+          {
+            "node": "Planning Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Milestone Context Consolidator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status Context": {
+      "main": [
+        []
+      ]
+    },
+    "Status Context Consolidator": {
+      "main": [
+        [
+          {
+            "node": "Status Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Milestone Context Consolidator": {
+      "main": [
+        [
+          {
+            "node": "Milestone Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3b5b7e71-098f-4c78-99c1-6be09e87494c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9f9fe73ec08ba0e67dbfd52d8bd947d814188885765893b3e29c722400a7e64a"
+  },
+  "nodeGroups": [],
+  "id": "yOGSq6XnuqO8yLxu",
+  "tags": []
+}

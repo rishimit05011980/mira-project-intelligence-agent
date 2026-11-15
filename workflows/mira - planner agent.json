@@ -1,0 +1,108 @@
+{
+  "name": "Mira - Planner Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Project Request:\n{{$json.project_request}}\n\nProject Context:\n{{$json.project_context}}",
+        "options": {
+          "systemMessage": "ROLE:\nYou are a Project Planning Specialist.\n\nRESPONSIBILITY:\nGenerate structured project plans using only the project context provided.\n\nOUTPUT FORMAT:\n\n1. Project Objectives\n2. Project Phases\n3. Key Activities\n4. Milestones\n5. Deliverables\n6. Dependencies\n7. Timeline\n\nRULES:\n\n1. Use only information explicitly provided in the input context.\n\n2. Do not invent project goals, milestones, timelines, budgets, teams, deliverables, or dependencies.\n\n3. First determine whether the user's request explicitly refers to:\n   - ABCDE Ltd.\n   - AI Adoption Project\n   - the provided project description\n   - the loaded project context\n\n4. Only use the supplied project description and timeline when the request refers to the provided project context.\n\n5. If the request is generic, ambiguous, or refers to a different project (for example: \"build a chatbot\", \"create a website\", \"2-week project\"):\n\nReturn exactly:\n\nINSUFFICIENT INFORMATION\n\nRequired information:\n- Project scope\n- Objectives\n- Timeline\n- Team size\n- Key deliverables\n\nDo not generate a complete project plan.\n\n6. Even when project context exists, do not assume it applies unless the request clearly references the provided project.\n\n7. Clearly separate:\n   - Known Information\n   - Missing Information\n   - Assumptions (if any)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "617bb36a-0a00-4991-a4b0-ec480780bb67",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        240
+      ],
+      "id": "2c1cda35-07cc-49da-87cc-64f22f109acf",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "project_request"
+            },
+            {
+              "name": "project_context"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d267a051-d1c4-48ad-ac2c-a6c30127004d",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6593adda-e2cf-4f10-be4c-30072f262f3d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9f9fe73ec08ba0e67dbfd52d8bd947d814188885765893b3e29c722400a7e64a"
+  },
+  "nodeGroups": [],
+  "id": "WSPUAfw3YyLyCF5c",
+  "tags": []
+}

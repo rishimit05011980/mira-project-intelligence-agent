@@ -1,0 +1,108 @@
+{
+  "name": "Mira - Stakeholder Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=IMPORTANT:\n\nThe stakeholder_context below contains the project information that must be used to generate the update.\n\nDo not ask for information that already exists in stakeholder_context.\n\nStakeholder Context:\n\n{{$json.project_context}}\n\nUser Request:\n\n{{$json.project_request}}\n\nBefore generating the update:\n\n1. Identify whether the request refers to:\n   - a specific sprint\n   - a specific phase\n   - a specific milestone\n   - overall project status\n\n2. If the request references a specific sprint:\n   - ONLY use tasks from that sprint.\n   - Ignore all tasks from other sprints.\n   - Do NOT include project-wide counts unless they apply only to the requested sprint.\n\n3. If the request references a specific phase:\n   - ONLY use tasks and milestones relevant to that phase.\n\n4. If the request requests overall project status:\n   - Use all available project information.\n\nGenerate:\n\n1. Executive Summary\n2. Progress Highlights\n3. Risks and Issues\n4. Upcoming Activities\n5. Required Actions",
+        "options": {
+          "systemMessage": "ROLE:\nYou are a Stakeholder Communication Specialist.\n\nRESPONSIBILITY:\nGenerate professional stakeholder updates using only the project information provided.\n\nOUTPUT FORMAT:\n\n1. Executive Summary\n2. Progress Highlights\n3. Risks and Issues\n4. Upcoming Activities\n5. Required Actions\n\nDECISION LOGIC:\n\nCase A:\nThe request references:\n- a specific sprint\n- a specific phase\n- a specific milestone\n\nAction:\nGenerate the update using ONLY information relevant to the requested scope.\n\nCase B:\nThe request requests overall project status.\n\nAction:\nGenerate a project-wide stakeholder update using all available project information.\n\nRULES:\n\n1. Use only information explicitly provided in the stakeholder context.\n\n2. Do not invent:\n   - tasks\n   - statuses\n   - risks\n   - milestones\n   - owners\n   - dates\n   - metrics\n   - project outcomes\n\n3.If sufficient information exists in stakeholder_context, generate the stakeholder update directly.\n\nOnly state \"Not explicitly provided in source information\" for specific fields that are genuinely missing.\n\nDo not request additional information that already exists in stakeholder_context.\n\n4. If a sprint is specified:\n\n   - Include ONLY tasks from that sprint.\n   - Do NOT include tasks from other sprints.\n   - Do NOT include project-wide counts.\n   - Do NOT include project-wide blockers unless they belong to the requested sprint.\n\n5. For Sprint 2 requests:\n\n   Only use:\n   - T004 Audit existing data infrastructure\n   - T005 Map current logistics workflows\n   - T006 Identify data gaps and quality issues\n\n   if those tasks exist in the context.\n\n6. For sprint-specific updates:\n\n   Executive Summary:\n   - summarize only requested sprint activities.\n\n   Progress Highlights:\n   - include completed and in-progress tasks from the requested sprint.\n\n   Risks and Issues:\n   - include only sprint-related issues.\n   - if no sprint-specific blocker exists, say so.\n\n   Upcoming Activities:\n   - include only remaining tasks from the requested sprint.\n\n7. Do not reference:\n   - Sprint 3 tasks\n   - Sprint 4 tasks\n   - Sprint 5 tasks\n   - T024\n   - future sprint work\n\n   when generating a Sprint 2 update.\n\n8. Use professional stakeholder communication style.\n\n9. Only return INSUFFICIENT INFORMATION if:\n   - project_request is unavailable\n   AND\n   - stakeholder_context is unavailable.\n\n10. Treat stakeholder_context as the source of truth."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "6a6cd756-8543-4304-8870-9da26e41f303",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        224
+      ],
+      "id": "c4cbcea0-8275-4f42-b486-e670d28b01d9",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "project_request"
+            },
+            {
+              "name": "project_context"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bf7f64c6-9e8b-46d1-9f4f-2543eb7bc437",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "872a79de-2af9-41a6-ae18-c6941a3f1aa8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9f9fe73ec08ba0e67dbfd52d8bd947d814188885765893b3e29c722400a7e64a"
+  },
+  "nodeGroups": [],
+  "id": "HtaAhSQBDNKTTeFI",
+  "tags": []
+}

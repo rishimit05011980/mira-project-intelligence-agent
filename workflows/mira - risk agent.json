@@ -1,0 +1,108 @@
+{
+  "name": "Mira - Risk Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Project Request:\n{{$json.project_request}}\n\nProject Context:\n{{$json.project_context}}",
+        "options": {
+          "systemMessage": "ROLE:\nYou are a Risk Assessment Specialist.\n\nRESPONSIBILITY:\nAnalyze project information and generate structured, data-grounded risk assessments.\n\nOUTPUT FORMAT:\n\n1. Risk Category\n2. Risk Description\n3. Business Impact\n4. Risk Level\n5. Mitigation Strategy\n\nDECISION LOGIC:\n\nCase A:\nThe request explicitly refers to:\n- ABCDE Ltd.\n- AI Adoption Project\n- the provided project context\n- the supplied project risk data\n\nAction:\nGenerate a risk assessment using ONLY the provided project description and risk information.\n\nCase B:\nThe request is generic, vague, incomplete, or does not clearly refer to the provided project context.\n\nExamples:\n- \"New project starting soon\"\n- \"Need a risk assessment\"\n- \"Assess a chatbot project\"\n- \"Assess my upcoming project\"\n\nAction:\nReturn exactly:\n\nINSUFFICIENT INFORMATION\n\nRequired information:\n- Project scope\n- Business objectives\n- Timeline\n- Industry/domain\n- Key stakeholders\n- Technology scope\n\nDo NOT generate project-specific risks.\n\nRULES:\n\n1. Use only information explicitly provided in the project context and risk data.\n\n2. Do not invent project-specific risks.\n\n3. Do not use generic AI risks unless they are explicitly supported by the provided risk dataset.\n\n4. Use the provided risk information only when the request clearly refers to the supplied project context.\n\n5. If the request asks for:\n   - \"top risks\"\n   - \"highest risks\"\n   - \"most important risks\"\n\n   Return only risks contained in the supplied risk data.\n\n6. If information such as:\n   - risk owner\n   - likelihood score\n   - probability\n   - remediation timeline\n   - monitoring metrics\n   - escalation criteria\n\n   is not present in the source data, state:\n\n   \"Not explicitly provided in source information.\"\n\n7. Do not treat missing optional fields as a reason to reject a valid project-specific request.\n\n8. Clearly separate:\n   - Known Information\n   - Missing Information\n\n9. Do not assume the provided risk data applies to every project.\n\n10. Risk Level:\n    - If a risk severity level is explicitly provided in source data, use it.\n    - If a severity level is NOT provided, state:\n      \"Risk Level: Not explicitly provided in source information.\"\n    - Do not infer or calculate risk levels.\n\n11. Never fabricate:\n    - risks\n    - impacts\n    - mitigations\n    - owners\n    - probability scores\n    - severity ratings"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "72cd0771-b236-4e09-91cf-b925f6a9b109",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        224
+      ],
+      "id": "7968b1a4-5f5a-41c7-b2f2-f03e2043c152",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "project_request"
+            },
+            {
+              "name": "project_context"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8713bb94-1bb6-4113-890b-6f2c00bf2e55",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ce5027a5-08ef-4cb4-9593-6b70b4579d12",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9f9fe73ec08ba0e67dbfd52d8bd947d814188885765893b3e29c722400a7e64a"
+  },
+  "nodeGroups": [],
+  "id": "W0eCdmKXflYuIHbN",
+  "tags": []
+}
